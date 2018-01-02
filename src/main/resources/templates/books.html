@@ -6,15 +6,7 @@
 </head>
 
 <body>
-<form method="get">
-    <div th:if="${!myNewModel.isEmpty()}">
-        <tr th:each="book : ${myNewModel}">
-            <td th:text="${book.name}"></td>
-        </tr>
 
-    </div>
-
-</form>
 </body>
 
 </html>
