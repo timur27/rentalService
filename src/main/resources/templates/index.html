@@ -3,22 +3,14 @@
 <head>
     <meta charset="UTF-8" />
     <title>Rental by Timur</title>
+    <link href="src/main/resources/static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
 </head>
 
 <body>
     <h1>I am Timur, and my rental service can help you with</h1>
-    <!--/*--><!--@thymesVar id="books" type="List<com.example.demo.models.Book>"--><!--*/-->
-    <!--/*--><!--@thymesVar id="book" type="com.example.demo.models.Book"--><!--*/-->
-
-    <table>
-        <tbody th:each="book : ${books}" th:remove="tag">
-        <tr>
-            <td th:text="${book.getName()}"></td>
-            <td th:text="${book.getAuthor()}"></td>
-        </tr>
-        </tbody>
-    </table>
-
+    <a href="books.html">Books</a>
+    <a href="clothing.html">Clothing</a>
+    <a href="flats.html">Flats</a>
 </body>
 
 </html>

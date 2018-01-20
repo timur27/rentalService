@@ -1,6 +1,5 @@
 package com.example.demo.models;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,6 +17,8 @@ public class Clothing {
         this.collection = collection;
         this.model = model;
     }
+
+    public Clothing(){};
 
 
     public Long getId() {
@@ -43,6 +44,7 @@ public class Clothing {
     public void setModel(String model) {
         this.model = model;
     }
+
 
     @Override
     public String toString() {

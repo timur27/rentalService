@@ -3,9 +3,11 @@ package com.example.demo;
 import com.example.demo.models.Book;
 import com.example.demo.models.Clothing;
 import com.example.demo.models.Flat;
+import com.example.demo.models.Ship;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.ClothingRepository;
 import com.example.demo.repository.FlatRepository;
+import com.example.demo.repository.ShipRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,10 +25,11 @@ public class DemoApplication {
 	}
 
 	@Bean
-    CommandLineRunner runner(BookRepository bookRepository, FlatRepository flatRepository, ClothingRepository clothingRepository){
+    CommandLineRunner runner(BookRepository bookRepository, FlatRepository flatRepository, ClothingRepository clothingRepository, ShipRepository shipRepository){
 	    return args -> {
-	        bookRepository.save(new Book("Anna Karenina", "Lev Tolstoi"));
-            bookRepository.save(new Book("Vojna i mir", "Lev Tolstoi"));
+	        shipRepository.save(new Ship("Fast", "Book"));
+	        bookRepository.save(new Book("Anna Karenina", "Lev Tolstoi", 30));
+            bookRepository.save(new Book("Vojna i mir", "Lev Tolstoi", 20));
             flatRepository.save(new Flat("Sliska 14", 72));
             flatRepository.save(new Flat("Krakowska 27", 30));
             clothingRepository.save(new Clothing("Zara", "Jacket"));

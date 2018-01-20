@@ -17,6 +17,8 @@ public class Flat {
         this.meters = meters;
     }
 
+    public Flat(){};
+
     public Long getId() {
         return id;
     }
@@ -40,6 +42,7 @@ public class Flat {
     public void setMeters(int meters) {
         this.meters = meters;
     }
+
 
     @Override
     public String toString() {

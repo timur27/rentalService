@@ -6,7 +6,14 @@
 </head>
 
 <body>
-
+    <table>
+        <tbody th:each="book : ${books}" th:remove="tag">
+        <tr>
+            <a th:href="@{${url} + ${#strings.replace(book.getName(),' ','_')}}" th:text="${book.getName()}"></a>
+            <a th:href="@{${url} + ${book.getName()}}" th:text="${book.getAuthor()}"></a>
+        </tr>
+        </tbody>
+    </table>
 </body>
 
 </html>
