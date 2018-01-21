@@ -12,15 +12,29 @@ public class Clothing {
     private Long id;
     private String collection;
     private String model;
+    private final String type = "clothing";
+    private double price;
 
-    public Clothing(String collection, String model) {
+    public Clothing(String collection, String model, double price) {
         this.collection = collection;
         this.model = model;
+        this.price = price;
     }
 
     public Clothing(){};
 
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getType(){
+        return this.type;
+    }
     public Long getId() {
         return id;
     }

@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+
 <head>
-    <meta charset="UTF-8" />
-    <title>Rental by Timur</title>
+  <meta charset="UTF-8"/>
+  <title>Archiwum książek</title>
+      <link rel="stylesheet" href="css/style1.css"/>
 </head>
 
 <body>
-    <table>
-        <tbody th:each="book : ${books}" th:remove="tag">
-        <tr>
-            <a th:href="@{${url} + ${#strings.replace(book.getName(),' ','_')}}" th:text="${book.getName()}"></a>
-            <a th:href="@{${url} + ${book.getName()}}" th:text="${book.getAuthor()}"></a>
-        </tr>
-        </tbody>
-    </table>
+
+
+<h1><span class="blue">&lt;</span>Archiwum<span class="blue">&gt;</span>
+    <span class="yellow">Książek</span></h1>
+<table class="container">
+	<thead>
+
+		<tr>
+            <th><h1>Nazwa</h1></th>
+            <th><h1>Autor</h1></th>
+            <th><h1>Rok</h1></th>
+            <th><h1>Czy dostępna</h1></th>
+		</tr>
+	</thead>
+	<tbody th:each="book : ${books}" th:remove="tag">
+		<tr>
+			<td><a th:href="@{${url} + ${#strings.replace(book.getName(),' ','_')}}" th:text="${book.getName()} + '   '"></a></td>
+			<td><a th:href="@{${url} + ${book.getName()}}" th:text="${book.getAuthor()}"></a></td>
+            <td><a th:href="@{${url} + ${book.getName()}}" th:text="${book.getYear()}"></a></td>
+            <td><a th:href="@{${url} + ${book.getName()}}" th:text="${book.getStatus()}"></a></td>
+		</tr>
+    	</tbody>
+</table>
+  
+  
+
 </body>
 
 </html>

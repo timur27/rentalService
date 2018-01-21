@@ -1,23 +1,56 @@
 package com.example.demo.models;
 
+import com.example.demo.ApplicationContextHolder;
+import com.example.demo.Facade.ObjectToRent;
+import com.example.demo.Service.BookService;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
-public class Book{
+public class Book {
     @Id @GeneratedValue
     private Long id;
     private String name;
     private String author;
     private double price;
+    private String status;
+    private String year;
+    private final String type = "book";
+
+
 
     public Book(){};
 
-    public Book(String name, String author, double price) {
+    public Book(String name, String author, double price, String status, String year) {
         this.name = name;
         this.author = author;
         this.price = price;
+        this.status = status;
+        this.year = year;
+    }
+
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getType(){
+        return this.type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getId() {
@@ -51,6 +84,7 @@ public class Book{
     public void setPrice(double price) {
         this.price = price;
     }
+
 
     @Override
     public String toString() {

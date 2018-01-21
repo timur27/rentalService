@@ -1,14 +1,20 @@
 package com.example.demo.controllers;
 
 import com.example.demo.Adapter.BookAdapter;
+import com.example.demo.Adapter.ClothingAdapter;
+import com.example.demo.Adapter.FlatAdapter;
 import com.example.demo.Adapter.RentalObject;
+import com.example.demo.Facade.SaveMaker;
+import com.example.demo.Observer.StatusObserver;
 import com.example.demo.Service.BookService;
+import com.example.demo.Singleton.MySituation;
 import com.example.demo.Template.BookMaster;
+import com.example.demo.Template.ClothingMaster;
+import com.example.demo.Template.FlatMaster;
 import com.example.demo.models.*;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.ClothingRepository;
 import com.example.demo.repository.FlatRepository;
-import com.example.demo.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,19 +44,36 @@ public class HomeController {
     @Autowired
     private ClothingRepository clothingRepository;
 
+    SaveMaker saveMaker;
+
     @Autowired
-    private ShipRepository shipRepository;
+    public void setSaveMaker(SaveMaker saveMaker){
+        this.saveMaker = saveMaker;
+    }
+
+
+    @RequestMapping(value = "/situation", method = RequestMethod.GET)
+    public String getSituation(Model model){
+        MySituation situation = MySituation.INSTANCE;
+        model.addAttribute("situation", "yes");
+        model.addAttribute("situations", situation.getShips());
+        return "situation";
+    }
+
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ModelAndView addElement(@Valid Book book, @Valid Flat flat, @Valid Clothing clothing, BindingResult bindingResult){
+    public ModelAndView addElement(@Valid Book book,@Valid Flat flat, @Valid Clothing clothing, BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView();
-        RentalObject[] rentalObjects = {new BookAdapter(book)};
-        for (RentalObject r : rentalObjects){
-            if (r.getType() == "book")
-                bookService.save(book);
-            else if (r.getType() == "flat")
-                flatRepository.save(flat);
+        List<RentalObject> rentalObjectList = new ArrayList<>();
+        if (book.getAuthor() != null)
+            rentalObjectList.add(new BookAdapter(book));
+        if (flat.getAddress() != null)
+            rentalObjectList.add(new FlatAdapter(flat));
+        if (clothing.getCollection() != null)
+            rentalObjectList.add(new ClothingAdapter(clothing));
 
+        for (RentalObject r : rentalObjectList){
+            r.save();
         }
         modelAndView.setViewName("add");
         return modelAndView;
@@ -61,6 +84,10 @@ public class HomeController {
     public ModelAndView addProducts(){
         ModelAndView modelAndView = new ModelAndView();
         Book book = new Book();
+        Flat flat = new Flat();
+        Clothing clothing = new Clothing();
+        modelAndView.addObject("clothing", clothing);
+        modelAndView.addObject("flat", flat);
         modelAndView.addObject("book", book);
         modelAndView.setViewName("add");
         return modelAndView;
@@ -69,11 +96,15 @@ public class HomeController {
     @RequestMapping(value = "/books/{bookName}", method = RequestMethod.POST)
     public ModelAndView setShip(@PathVariable("bookName") String bookName, @Valid Ship ship){
         ModelAndView modelAndView = new ModelAndView();
+        new StatusObserver(ship);
         ship.setProduct(bookName.replace("_", " "));
-        shipRepository.save(ship);
+        ship.setProductType("book");
+        saveMaker.setShip(ship);
+        saveMaker.saveShip();
         BookMaster bookMaster = new BookMaster();
         Ship refreshedShip = bookMaster.makeWork(ship.getProduct());
-        shipRepository.save(refreshedShip);
+        saveMaker.setShip(refreshedShip);
+        saveMaker.saveShip();
         modelAndView.setViewName("book");
         return modelAndView;
     }
@@ -108,6 +139,7 @@ public class HomeController {
     public String getAllClothing(Model model){
         List<Clothing> clothingList = clothingRepository.findAll();
         model.addAttribute("clothing", clothingList);
+        model.addAttribute("url", "/clothing/");
         return "clothing";
     }
 
@@ -115,6 +147,7 @@ public class HomeController {
     public String getAllFlats(Model model){
         List<Flat> flatList = flatRepository.findAll();
         model.addAttribute("flats", flatList);
+        model.addAttribute("url", "/flats/");
         return "flats";
     }
 
@@ -122,6 +155,84 @@ public class HomeController {
     public String getRentalList(Model model){
         List<Book> books = bookRepository.findAll();
         model.addAttribute("books", books);
+        List<String> ss = new ArrayList<>();
+        ss.add("Ksiazki");
+        ss.add("Mieszkania");
+        ss.add("Odziez");
+        model.addAttribute("ss", ss);
         return "index";
+    }
+
+
+
+
+
+    @RequestMapping(value = "/clothing/{clothingName}", method = RequestMethod.POST)
+    public ModelAndView setforCloth(@PathVariable("clothingName") String clothingName, @Valid Ship ship){
+        ModelAndView modelAndView = new ModelAndView();
+        new StatusObserver(ship);
+        ship.setProduct(clothingName.replace("_", " "));
+        ship.setProductType("clothing");
+        saveMaker.setShip(ship);
+        saveMaker.saveShip();
+        ClothingMaster clothingMaster = new ClothingMaster();
+        Ship refreshedShip = clothingMaster.makeWork(ship.getProduct());
+        saveMaker.setShip(refreshedShip);
+        saveMaker.saveShip();
+        modelAndView.setViewName("cloth");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/clothing/{clothingName}", method = RequestMethod.GET)
+    public String getlClothName(@PathVariable("clothingName") String clothingName, Model model){
+        Clothing clothing = clothingRepository.findByCollection(clothingName.replace("_", " "));
+        if (clothing != null){
+            model.addAttribute("clothExists", clothing);
+            model.addAttribute("clothname", clothingName);
+            model.addAttribute("showw", "yes");
+            model.addAttribute("ship", new Ship());
+            List<ShipType> shipTypes = new ArrayList<>();
+            shipTypes.add(new ShipType("FAST"));
+            shipTypes.add(new ShipType("STANDARD"));
+            shipTypes.add(new ShipType("BUSINESS"));
+
+            model.addAttribute("shipTypes", shipTypes);
+        }
+        return "cloth";
+    }
+
+
+    @RequestMapping(value = "/flats/{flatName}", method = RequestMethod.POST)
+    public ModelAndView setforFlat(@PathVariable("flatName") String flatName, @Valid Ship ship){
+        ModelAndView modelAndView = new ModelAndView();
+        new StatusObserver(ship);
+        ship.setProduct(flatName.replace("_", " "));
+        ship.setProductType("clothing");
+        saveMaker.setShip(ship);
+        saveMaker.saveShip();
+        FlatMaster flatMaster = new FlatMaster();
+        Ship refreshedShip = flatMaster.makeWork(ship.getProduct());
+        saveMaker.setShip(refreshedShip);
+        saveMaker.saveShip();
+        modelAndView.setViewName("flat");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/flats/{flatName}", method = RequestMethod.GET)
+    public String getFlatName(@PathVariable("flatName") String flatName, Model model){
+        Flat flat = flatRepository.findByAddress(flatName.replace("_", " "));
+        if (flat != null){
+            model.addAttribute("flatExists", flat);
+            model.addAttribute("flatname", flatName);
+            model.addAttribute("showw", "yes");
+            model.addAttribute("ship", new Ship());
+            List<ShipType> shipTypes = new ArrayList<>();
+            shipTypes.add(new ShipType("FAST"));
+            shipTypes.add(new ShipType("STANDARD"));
+            shipTypes.add(new ShipType("BUSINESS"));
+
+            model.addAttribute("shipTypes", shipTypes);
+        }
+        return "flat";
     }
 }

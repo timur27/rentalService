@@ -11,13 +11,28 @@ public class Flat {
     private Long id;
     private String address;
     private int meters;
+    private final String type = "flat";
+    private double price;
 
-    public Flat(String address, int meters) {
+    public Flat(String address, int meters, double price) {
         this.address = address;
         this.meters = meters;
+        this.price = price;
     }
 
     public Flat(){};
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getType(){
+        return this.type;
+    }
 
     public Long getId() {
         return id;

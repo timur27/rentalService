@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Rental by Timur</title>
+    <link th:href="@{/css/mystyle.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+<div class="container">
+    <h3>Dodac nowe produkty do bazy danych</h3>
+    <form action="#" th:action="@{/add}" th:object="${book}" method="POST">
+        <input name="value" type="text" th:text="Name" th:field="*{name}"/>
+        <input name="value" type="text" th:text="Author" th:field="*{author}"/>
+        <input name="value" type="text" th:text="Price" th:field="*{price}"/>
+        <input name="value" type="text" th:text="Year" th:field="*{year}"/>
+        <p><input type="submit" value="Add book" />    </p>
+    </form>
+<br/>
+    <br/>
+</div>
+
+
+<div class="container">
+    <form action="#" th:action="@{/add}" th:object="${flat}" method="POST">
+        <input name="value" type="text" th:text="Address" th:field="*{address}"/>
+        <input name="value" type="text" th:text="Meters" th:field="*{meters}"/>
+        <p><input type="submit" value="Add flat" />    </p>
+    </form>
+    <br/>
+    <br/>
+</div>
+
+<div class="container">
+    <form action="#" th:action="@{/add}" th:object="${clothing}" method="POST">
+        <input name="value" th:text="Collection" type="text" th:field="*{collection}"/>
+        <input name="value" type="text" th:text="Model" th:field="*{model}"/>
+        <p><input type="submit" value="Add clothing" />    </p>
+    </form>
+</div>
+
+</body>
+
+</html>

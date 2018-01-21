@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Rental by Timur</title>
+
+    <link th:href="@{/css/mystyle.css}" rel="stylesheet" />
+</head>
+
+<body>
+<div th:if="${show=='yes'}">
+<table>
+    <tbody>
+    <tr>
+        <td th:text="${bookExists.getName()}"></td>
+        <td th:text="${bookExists.getAuthor()}"></td>
+    </tr>
+    </tbody>
+
+</table>
+</div>
+
+
+<div class="container">
+    <form action="#" th:action="@{/books/{bookname}(bookname=${bookname})}" th:object="${ship}" method="POST">
+        <input name="value" th:text="FAST_BUSINESS_STANDARD" type="text" th:field="*{type}"/>
+        <input name="value" th:text="Begin_periode" type="text" th:field="*{begin}"/>
+        <input name="value" th:text="End_periode" type="text" th:field="*{end}"/>
+
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+
+</div>
+
+
+</body>
+
+</html>

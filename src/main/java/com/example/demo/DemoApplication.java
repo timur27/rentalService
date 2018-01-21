@@ -27,13 +27,12 @@ public class DemoApplication {
 	@Bean
     CommandLineRunner runner(BookRepository bookRepository, FlatRepository flatRepository, ClothingRepository clothingRepository, ShipRepository shipRepository){
 	    return args -> {
-	        shipRepository.save(new Ship("Fast", "Book"));
-	        bookRepository.save(new Book("Anna Karenina", "Lev Tolstoi", 30));
-            bookRepository.save(new Book("Vojna i mir", "Lev Tolstoi", 20));
-            flatRepository.save(new Flat("Sliska 14", 72));
-            flatRepository.save(new Flat("Krakowska 27", 30));
-            clothingRepository.save(new Clothing("Zara", "Jacket"));
-            clothingRepository.save(new Clothing("Pierre Cardin", "Boots"));
+	        bookRepository.save(new Book("Anna Karenina", "Lev Tolstoi", 30, "AVAILABLE","1970"));
+            bookRepository.save(new Book("Vojna i mir", "Lev Tolstoi", 20, "AVAILABLE", "1980"));
+            flatRepository.save(new Flat("Sliska 14", 72, 500));
+            flatRepository.save(new Flat("Krakowska 27", 30, 1700));
+            clothingRepository.save(new Clothing("Zara", "Jacket", 35));
+            clothingRepository.save(new Clothing("Pierre Cardin", "Boots", 110));
 	    };
     }
 }

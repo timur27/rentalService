@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Rental by Timur</title>
+    <link href="src/main/resources/static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+</head>
+
+<body>
+<h1>Here how many people made rental from me</h1>
+<table>
+    <tbody th:each="ship : ${situations}" th:remove="tag">
+    <tr>
+        <a  th:text="${ship.begin} + ' | '"></a>
+        <a  th:text="${ship.end} + ' | '"></a>
+        <a  th:text="${ship.product}"></a>
+        <br/>
+    </tr>
+    </tbody>
+</table>
+</body>
+
+</html>

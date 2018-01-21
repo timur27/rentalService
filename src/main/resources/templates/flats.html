@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Archiwum książek</title>
+    <link rel="stylesheet" href="css/style1.css"/>
+</head>
+
+<body>
+
+
+<h1><span class="blue">&lt;</span>Archiwum<span class="blue">&gt;</span>
+    <span class="yellow">mieszkań</span></h1>
+<table class="container">
+    <thead>
+
+    <tr>
+        <th><h1>Adres</h1></th>
+        <th><h1>m2</h1></th>
+    </tr>
+    </thead>
+    <tbody th:each="book : ${flats}" th:remove="tag">
+    <tr>
+        <td><a th:href="@{${url} + ${#strings.replace(book.getAddress(),' ','_')}}" th:text="${book.getAddress()} + '   '"></a></td>
+        <td><a th:href="@{${url} + ${book.getAddress()}}" th:text="${book.getMeters()}"></a></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+</body>
+
+</html>
