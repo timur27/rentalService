@@ -46,6 +46,7 @@ public class HomeController {
 
     SaveMaker saveMaker;
 
+    //Dependency Injection setter
     @Autowired
     public void setSaveMaker(SaveMaker saveMaker){
         this.saveMaker = saveMaker;
@@ -54,6 +55,7 @@ public class HomeController {
 
     @RequestMapping(value = "/situation", method = RequestMethod.GET)
     public String getSituation(Model model){
+        //Singleton pattern
         MySituation situation = MySituation.INSTANCE;
         model.addAttribute("situation", "yes");
         model.addAttribute("situations", situation.getShips());
@@ -64,6 +66,7 @@ public class HomeController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ModelAndView addElement(@Valid Book book,@Valid Flat flat, @Valid Clothing clothing, BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView();
+        //Adapter pattern
         List<RentalObject> rentalObjectList = new ArrayList<>();
         if (book.getAuthor() != null)
             rentalObjectList.add(new BookAdapter(book));
@@ -96,13 +99,17 @@ public class HomeController {
     @RequestMapping(value = "/books/{bookName}", method = RequestMethod.POST)
     public ModelAndView setShip(@PathVariable("bookName") String bookName, @Valid Ship ship){
         ModelAndView modelAndView = new ModelAndView();
+        //Observer pattern
         new StatusObserver(ship);
         ship.setProduct(bookName.replace("_", " "));
         ship.setProductType("book");
+        //Facade pattern
         saveMaker.setShip(ship);
         saveMaker.saveShip();
+        //Template pattern
         BookMaster bookMaster = new BookMaster();
         Ship refreshedShip = bookMaster.makeWork(ship.getProduct());
+        //Facade continuation
         saveMaker.setShip(refreshedShip);
         saveMaker.saveShip();
         modelAndView.setViewName("book");

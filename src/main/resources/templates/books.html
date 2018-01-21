@@ -24,13 +24,25 @@
 		</tr>
 	</thead>
 	<tbody th:each="book : ${books}" th:remove="tag">
-		<tr>
-			<td><a th:href="@{${url} + ${#strings.replace(book.getName(),' ','_')}}" th:text="${book.getName()} + '   '"></a></td>
-			<td><a th:href="@{${url} + ${book.getName()}}" th:text="${book.getAuthor()}"></a></td>
+    <div th:if="${book.getStatus()=='AVAILABLE'}">
+        <tr>
+            <td><a th:href="@{${url} + ${#strings.replace(book.getName(),' ','_')}}" th:text="${book.getName()} + '   '"></a></td>
+            <td><a th:href="@{${url} + ${book.getName()}}" th:text="${book.getAuthor()}"></a></td>
             <td><a th:href="@{${url} + ${book.getName()}}" th:text="${book.getYear()}"></a></td>
             <td><a th:href="@{${url} + ${book.getName()}}" th:text="${book.getStatus()}"></a></td>
-		</tr>
-    	</tbody>
+        </tr>
+    </div>
+
+    <div th:if="${book.getStatus()=='OUT'}">
+        <tr>
+            <td th:text="${book.getName()} + '   '"></td>
+            <td th:text="${book.getAuthor()} + '   '"></td>
+            <td th:text="${book.getYear()} + '   '"></td>
+            <td th:text="${book.getStatus()} + '   '"></td>
+        </tr>
+    </div>
+
+    </tbody>
 </table>
   
   

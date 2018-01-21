@@ -5,6 +5,10 @@ import com.example.demo.models.Ship;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.ShipRepository;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.TimerTask;
+
 public class StatusObserver extends Observer {
     public StatusObserver(Ship ship){
         this.ship = ship;
@@ -16,6 +20,9 @@ public class StatusObserver extends Observer {
         if (ship.getProductType().equals("book")){
             BookRepository bookRepository = ApplicationContextHolder.getContext().getBean(BookRepository.class);
             bookRepository.changeBookStatus(ship.getProduct(), "OUT");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+            LocalDate start = LocalDate.parse(ship.getBegin(), formatter);
+            LocalDate finish = LocalDate.parse(ship.getEnd(), formatter);
         }
     }
 }
