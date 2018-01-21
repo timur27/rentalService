@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
-public class Book {
+public class Book implements Thing{
     @Id @GeneratedValue
     private Long id;
     private String name;
@@ -85,6 +85,10 @@ public class Book {
         this.price = price;
     }
 
+    public void save(){
+        BookService bookService = ApplicationContextHolder.getContext().getBean(BookService.class);
+        bookService.save(this);
+    }
 
     @Override
     public String toString() {

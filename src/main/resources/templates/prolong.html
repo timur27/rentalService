@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Rental by Timur</title>
+    <link th:href="@{/css/mystyle.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+<div class="container">
+    <form action="#" th:action="@{/prolong.html}" th:object="${ship}" method="POST">
+        <input name="value" type="text" th:text="Name" th:field="*{product}"/>
+        <p><input type="submit" value="Add book" />    </p>
+    </form>
+    <br/>
+    <br/>
+</div>
+</body>
+
+</html>

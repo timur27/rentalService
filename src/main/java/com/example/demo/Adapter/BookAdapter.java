@@ -3,6 +3,7 @@ package com.example.demo.Adapter;
 import com.example.demo.ApplicationContextHolder;
 import com.example.demo.Service.BookService;
 import com.example.demo.models.Book;
+import com.example.demo.models.Thing;
 import com.example.demo.repository.BookRepository;
 
 public class BookAdapter extends RentalObject {
@@ -21,7 +22,6 @@ public class BookAdapter extends RentalObject {
         book.setStatus("AVAILABLE");
         bookRepository.save(book);
     }
-
     @Override
     public String getType(){
         return this.book.getType();

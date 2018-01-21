@@ -1,11 +1,13 @@
 package com.example.demo.models;
 
+import com.example.demo.Adapter.RentalObject;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Flat {
+public class Flat{
 
     @Id @GeneratedValue
     private Long id;

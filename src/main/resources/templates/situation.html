@@ -3,21 +3,29 @@
 <head>
     <meta charset="UTF-8" />
     <title>Rental by Timur</title>
-    <link href="src/main/resources/static/css/main.css" th:href="@{/css/main.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style1.css"/>
 </head>
 
 <body>
-<h1>Oto jakie rzeczy już pożyczyłeś</h1>
-<table>
+<table class="container">
+    <thead>
+
+    <tr>
+        <th><h1>Początek</h1></th>
+        <th><h1>Koniec</h1></th>
+        <th><h1>Nazwa</h1></th>
+    </tr>
+    </thead>
     <tbody th:each="ship : ${situations}" th:remove="tag">
     <tr>
-        <a  th:text="${ship.begin} + ' | '"></a>
-        <a  th:text="${ship.end} + ' | '"></a>
-        <a  th:text="${ship.product}"></a>
+        <td><a th:text="${ship.begin}"></a> </td>
+        <td><a th:text="${ship.end}"></a> </td>
+        <td><a th:text="${ship.product}"></a> </td>
         <br/>
     </tr>
     </tbody>
-</table>
+
+    </table>
 </body>
 
 </html>

@@ -20,9 +20,6 @@ public class StatusObserver extends Observer {
         if (ship.getProductType().equals("book")){
             BookRepository bookRepository = ApplicationContextHolder.getContext().getBean(BookRepository.class);
             bookRepository.changeBookStatus(ship.getProduct(), "OUT");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
-            LocalDate start = LocalDate.parse(ship.getBegin(), formatter);
-            LocalDate finish = LocalDate.parse(ship.getEnd(), formatter);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.demo.models;
 
 
 import com.example.demo.ApplicationContextHolder;
+import com.example.demo.Decorator.IShip;
 import com.example.demo.Facade.ObjectToRent;
 import com.example.demo.Observer.Observer;
 import com.example.demo.repository.ShipRepository;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Ship{
+public class Ship implements IShip {
     @Id
     @GeneratedValue
     private Long id;
@@ -110,7 +111,7 @@ public class Ship{
         this.product = product;
     }
 
-
+    @Override
     public void save(){
         ShipRepository shipRepository = ApplicationContextHolder.getContext().getBean(ShipRepository.class);
         shipRepository.save(this);

@@ -12,6 +12,7 @@ public interface BookRepository extends JpaRepository<Book, Long>{
     public Book findByName(String name);
 
 
+
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query("update Book book set book.status =:out where book.name =:bookName")

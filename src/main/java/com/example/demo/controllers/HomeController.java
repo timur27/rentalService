@@ -4,6 +4,8 @@ import com.example.demo.Adapter.BookAdapter;
 import com.example.demo.Adapter.ClothingAdapter;
 import com.example.demo.Adapter.FlatAdapter;
 import com.example.demo.Adapter.RentalObject;
+import com.example.demo.Decorator.IShip;
+import com.example.demo.Decorator.LongerShipDecorator;
 import com.example.demo.Facade.SaveMaker;
 import com.example.demo.Observer.StatusObserver;
 import com.example.demo.Service.BookService;
@@ -15,10 +17,12 @@ import com.example.demo.models.*;
 import com.example.demo.repository.BookRepository;
 import com.example.demo.repository.ClothingRepository;
 import com.example.demo.repository.FlatRepository;
+import com.example.demo.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,6 +48,9 @@ public class HomeController {
     @Autowired
     private ClothingRepository clothingRepository;
 
+    @Autowired
+    private ShipRepository shipRepository;
+
     SaveMaker saveMaker;
 
     //Dependency Injection setter
@@ -55,7 +62,7 @@ public class HomeController {
 
     @RequestMapping(value = "/situation", method = RequestMethod.GET)
     public String getSituation(Model model){
-        //Singleton pattern
+
         MySituation situation = MySituation.INSTANCE;
         model.addAttribute("situation", "yes");
         model.addAttribute("situations", situation.getShips());
@@ -96,6 +103,25 @@ public class HomeController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/prolong", method = RequestMethod.POST)
+    public ModelAndView setLonger(@Valid Ship ship){
+        ModelAndView modelAndView = new ModelAndView();
+        Ship tmp = shipRepository.findByProduct(ship.getProduct());
+        IShip longerShip = new LongerShipDecorator(tmp);
+        longerShip.save();
+        modelAndView.setViewName("prolong");
+        return modelAndView;
+    }
+
+
+    @RequestMapping(value = "/prolong", method = RequestMethod.GET)
+    public String getLonger(Model model){
+        Ship shhip = new Ship();
+        model.addAttribute("ship", shhip);
+        return "prolong";
+    }
+
+
     @RequestMapping(value = "/books/{bookName}", method = RequestMethod.POST)
     public ModelAndView setShip(@PathVariable("bookName") String bookName, @Valid Ship ship){
         ModelAndView modelAndView = new ModelAndView();
@@ -112,6 +138,9 @@ public class HomeController {
         //Facade continuation
         saveMaker.setShip(refreshedShip);
         saveMaker.saveShip();
+        //Decorator
+//        IShip ship1 = new LongerShipDecorator(refreshedShip);
+//        ship1.save();
         modelAndView.setViewName("book");
         return modelAndView;
     }
